@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ListingCard, { ListingCardProps } from '../components/marketplace/ListingCard';
+import { supabase } from '../lib/supabase';
 import './Marketplace.css';
 
 /**
@@ -111,12 +112,58 @@ const MOCK_LISTINGS: ListingCardProps[] = [
  */
 const Marketplace: React.FC = () => {
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+  const [listings, setListings] = useState<ListingCardProps[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchListings();
+  }, []);
+
+  const fetchListings = async () => {
+    try {
+      setLoading(true);
+      // Fetch listings and join with seller profiles to get sellerName and trustScore
+      const { data, error } = await supabase
+        .from('listings')
+        .select(`
+          *,
+          seller:profiles (
+            display_name,
+            trust_score,
+            is_legit_partner
+          )
+        `)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      if (data) {
+        const formattedListings: ListingCardProps[] = data.map(item => ({
+          title: item.title,
+          price: item.price,
+          location: item.location,
+          category: item.category,
+          bikeModel: Array.isArray(item.bike_models) ? item.bike_models[0] : item.bike_models,
+          sellerName: item.seller?.display_name || 'Unknown Seller',
+          sellerInitials: (item.seller?.display_name || 'U').substring(0, 2).toUpperCase(),
+          trustScore: item.seller?.trust_score || 0,
+          status: item.seller?.is_legit_partner ? 'legit_partner' : (item.status === 'active' ? 'default' : item.status),
+          imageUrl: item.images?.[0] || undefined
+        }));
+        setListings(formattedListings);
+      }
+    } catch (err) {
+      console.error('Error fetching listings:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="marketplace-page">
       <div className="marketplace-container">
         
-        {/* Mobile Filter Trigger (Only visible on Mobile viewports) */}
+        {/* Mobile Filter Trigger */}
         <div className="mobile-filter-bar">
           <button 
             className="mobile-filter-btn" 
@@ -131,7 +178,7 @@ const Marketplace: React.FC = () => {
         <aside className={`marketplace-sidebar ${isMobileFiltersOpen ? 'is-open' : ''}`}>
           <div className="filter-section">
             <h2 className="filter-section__label">Filter Parts</h2>
-            
+            {/* ... Filters unchanged ... */}
             <div className="filter-group">
               <label className="filter-group__label">Search Keyword</label>
               <div className="search-wrapper">
@@ -179,11 +226,25 @@ const Marketplace: React.FC = () => {
 
         {/* Main Content Area */}
         <main className="marketplace-main">
-          <div className="listing-grid">
-            {MOCK_LISTINGS.map((listing, index) => (
-              <ListingCard key={index} {...listing} />
-            ))}
-          </div>
+          {loading ? (
+            <div className="loading-state">
+              <div className="spinner"></div>
+              <p>Fetching the latest listings...</p>
+            </div>
+          ) : listings.length > 0 ? (
+            <div className="listing-grid">
+              {listings.map((listing, index) => (
+                <ListingCard key={index} {...listing} />
+              ))}
+            </div>
+          ) : (
+            <div className="empty-state">
+              <span className="empty-icon">🏍️</span>
+              <h3>No listings found</h3>
+              <p>Be the first to post a part for sale!</p>
+              <button className="btn btn-primary" style={{ marginTop: 24 }}>Create Listing</button>
+            </div>
+          )}
 
           {/* Pagination */}
           <nav className="pagination" aria-label="Marketplace pagination">
@@ -191,9 +252,8 @@ const Marketplace: React.FC = () => {
               Prev
             </button>
             <button className="pg-btn pg-btn--active" aria-current="page">1</button>
-            <button className="pg-btn">2</button>
-            <button className="pg-btn">3</button>
-            <button className="pg-btn" aria-label="Go to next page">Next</button>
+            {listings.length > 20 && <button className="pg-btn">2</button>}
+            <button className="pg-btn" disabled={listings.length <= 20} aria-label="Go to next page">Next</button>
           </nav>
         </main>
       </div>
