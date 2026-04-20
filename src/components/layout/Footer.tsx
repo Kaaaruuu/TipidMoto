@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
           {/* Quick Links */}
           <div>
             <h3 className="label" style={{ color: 'var(--ash)', marginBottom: 'var(--space-6)' }}>Marketplace</h3>
-            <ul style={{ list-style: 'none' }}>
+            <ul style={{ listStyle: 'none' }}>
               <li style={{ marginBottom: 'var(--space-3)' }}>
                 <Link to="/marketplace" className="footer-link">All Listings</Link>
               </li>
@@ -55,7 +55,7 @@ const Footer: React.FC = () => {
           {/* Support */}
           <div>
             <h3 className="label" style={{ color: 'var(--ash)', marginBottom: 'var(--space-6)' }}>Support</h3>
-            <ul style={{ list-style: 'none' }}>
+            <ul style={{ listStyle: 'none' }}>
               <li style={{ marginBottom: 'var(--space-3)' }}>
                 <Link to="/help" className="footer-link">Help Center</Link>
               </li>

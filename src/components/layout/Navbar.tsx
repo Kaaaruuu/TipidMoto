@@ -32,7 +32,7 @@ const Navbar: React.FC = () => {
     }}>
       <div className="container" style={{
         display: 'flex',
-        justify-content: space-between,
+        justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
       }}>
@@ -78,7 +78,7 @@ const Navbar: React.FC = () => {
                   fontSize: '9px',
                   display: 'flex',
                   alignItems: 'center',
-                  justify-content: 'center',
+                  justifyContent: 'center',
                   fontFamily: 'var(--font-display)',
                   fontWeight: 700,
                 }}>
@@ -94,7 +94,7 @@ const Navbar: React.FC = () => {
                 borderRadius: 'var(--r-pill)',
                 display: 'flex',
                 alignItems: 'center',
-                justify-content: 'center',
+                justifyContent: 'center',
                 fontFamily: 'var(--font-display)',
                 fontWeight: 700,
                 fontSize: '12px',
