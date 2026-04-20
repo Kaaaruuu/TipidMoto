@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import ListingCard, { ListingCardProps } from '../components/marketplace/ListingCard';
 import { supabase } from '../lib/supabase';
 import './Marketplace.css';
@@ -242,7 +243,7 @@ const Marketplace: React.FC = () => {
               <span className="empty-icon">🏍️</span>
               <h3>No listings found</h3>
               <p>Be the first to post a part for sale!</p>
-              <button className="btn btn-primary" style={{ marginTop: 24 }}>Create Listing</button>
+              <Link to="/post" className="btn btn-primary" style={{ marginTop: 24 }}>Create Listing</Link>
             </div>
           )}
 
