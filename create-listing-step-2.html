@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Listing - Step 2 | TipidMoto</title>
+  
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* ── COLORS ── */
+      --red:        #D0311A;   /* Primary CTA, prices */
+      --red-dark:   #A82410;   /* Button hover, pressed */
+      --red-mid:    #E8503A;   /* Logo accent only */
+      --red-light:  #F5E6E3;   /* Error bg, badge fill */
+
+      /* Neutral — Warm Ink & Cream */
+      --ink:        #1A1612;   /* Deepest text, navbar bg */
+      --ink-2:      #2E2720;   /* Footer, secondary dark surfaces */
+      --ink-3:      #4A3F36;   /* Tertiary dark text */
+      --stone:      #7A6E66;   /* Secondary text, metadata, placeholders */
+      --dust:       #B0A89E;   /* Disabled, borders only */
+      --ash:        #DDD8D3;   /* Card borders, dividers, inactive tabs */
+      --cream:      #F5F1EC;   /* Page background */
+      --white:      #FDFCFB;   /* Card surfaces, input backgrounds */
+
+      /* Accent — Gold (Legit Partner ONLY) */
+      --gold:       #C8922A;
+      --gold-dark:  #8A6218;
+      --gold-light: #F5EDD6;
+
+      /* Semantic */
+      --green:       #1E7A4A;   /* Success */
+      --green-light: #E3F2EB;
+      --blue:        #1A4FAD;   /* Info */
+      --blue-light:  #E3EAFB;
+
+      /* ── SPACING ── */
+      --space-1:  4px;
+      --space-2:  8px;
+      --space-3:  12px;
+      --space-4:  16px;
+      --space-6:  24px;
+      --space-8:  32px;
+      --space-10: 40px;
+      --space-12: 48px;
+      --space-16: 64px;
+
+      /* ── RADIUS ── */
+      --r-sm:   6px;
+      --r-md:   10px;
+      --r-lg:   16px;
+      --r-xl:   24px;
+      --r-pill: 999px;
+
+      /* ── SHADOWS ── */
+      --shadow-sm: 0 1px 3px rgba(26,22,18,.08), 0 1px 2px rgba(26,22,18,.06);
+      --shadow-md: 0 4px 12px rgba(26,22,18,.10), 0 2px 6px rgba(26,22,18,.06);
+      --shadow-lg: 0 12px 32px rgba(26,22,18,.12), 0 4px 12px rgba(26,22,18,.08);
+
+      /* ── MOTION ── */
+      --motion-fast:  120ms ease-out;
+      --motion-base:  200ms ease-out;
+      --motion-slow:  300ms ease-in-out;
+      --motion-enter: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+
+      /* Typography */
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    /* Reset & Base */
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+    body {
+      background-color: var(--cream);
+      color: var(--ink);
+      font-family: var(--font-body);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--space-10);
+      /* Golden Margin Rule: guarantee content doesn't touch edges */
+    }
+    @media (max-width: 768px) { .container { padding: 0 var(--space-6); } }
+    @media (max-width: 480px) { .container { padding: 0 var(--space-4); } }
+
+    /* Navbar */
+    nav.navbar {
+      background: var(--ink);
+      height: 62px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .navbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+    .logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 19px;
+      color: var(--white);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+    .logo span { color: var(--red-mid); }
+    
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+    }
+    .nav-link {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      color: var(--dust);
+      text-decoration: none;
+      transition: color var(--motion-fast);
+      text-transform: uppercase;
+    }
+    .nav-link:hover { color: var(--white); }
+    
+    .avatar-circle {
+      width: 32px;
+      height: 32px;
+      background: var(--red-light);
+      color: var(--red-dark);
+      border-radius: var(--r-pill);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    /* Buttons */
+    .btn {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      padding: 12px 24px;
+      border-radius: var(--r-md);
+      border: none;
+      cursor: pointer;
+      transition: all var(--motion-base);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--red);
+      color: var(--white);
+      box-shadow: 0 2px 8px rgba(208,49,26,.35);
+    }
+    .btn-primary:hover {
+      background: var(--red-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(208,49,26,.45);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--ash);
+      color: var(--ink);
+    }
+    .btn-outline:hover {
+      border-color: var(--stone);
+      background: var(--cream);
+    }
+    .btn:active { transform: translateY(0); transition-duration: 80ms; }
+    
+    .btn-sm { padding: 8px 16px; font-size: 12px; }
+
+    /* Stepper */
+    .stepper {
+      padding: var(--space-12) 0 var(--space-8);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .step-list {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+    }
+    .step-list::before {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--ash);
+      z-index: 0;
+    }
+    .step-item {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .step-circle {
+      width: 30px;
+      height: 30px;
+      border-radius: var(--r-pill);
+      background: var(--white);
+      border: 2px solid var(--ash);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--stone);
+      transition: all var(--motion-base);
+    }
+    .step-label {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      color: var(--stone);
+    }
+    
+    .step-item.complete .step-circle {
+      background: var(--red);
+      border-color: var(--red);
+      color: var(--white);
+    }
+    .step-item.active .step-circle {
+      border-color: var(--red);
+      color: var(--red);
+      box-shadow: 0 0 0 4px rgba(208,49,26,0.1);
+    }
+    .step-item.active .step-label { color: var(--ink); }
+
+    /* Form Styles */
+    .form-card {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-sm);
+      padding: var(--space-10);
+      max-width: 640px;
+      margin: 0 auto var(--space-12);
+    }
+    .form-header { margin-bottom: var(--space-8); }
+    .form-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 24px;
+      letter-spacing: -0.025em;
+      margin-bottom: var(--space-1);
+    }
+    .form-subtitle {
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--stone);
+    }
+
+    .form-group { margin-bottom: var(--space-6); }
+    .form-label {
+      display: block;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-3);
+      margin-bottom: var(--space-2);
+    }
+    .form-input {
+      width: 100%;
+      font-family: var(--font-body);
+      font-size: 14px;
+      padding: 12px 16px;
+      border: 1.5px solid var(--ash);
+      border-radius: var(--r-md);
+      background: var(--white);
+      color: var(--ink);
+      outline: none;
+      transition: all var(--motion-base);
+    }
+    .form-input:focus {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(208,49,26,0.1);
+    }
+    .form-input::placeholder { color: var(--dust); }
+    
+    textarea.form-input { min-height: 120px; resize: vertical; }
+
+    /* Condition Radio Group */
+    .condition-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-3);
+    }
+    .condition-option {
+      position: relative;
+      cursor: pointer;
+    }
+    .condition-option input {
+      position: absolute;
+      opacity: 0;
+    }
+    .condition-box {
+      border: 1.5px solid var(--ash);
+      border-radius: var(--r-md);
+      padding: var(--space-4);
+      transition: all var(--motion-base);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .condition-name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--ink);
+    }
+    .condition-desc {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--stone);
+    }
+    
+    .condition-option input:checked + .condition-box {
+      border-color: var(--red);
+      background: var(--red-light);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    .condition-option:hover .condition-box {
+      border-color: var(--stone);
+    }
+
+    /* Bike Selection / Chips */
+    .chips-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+    .chip {
+      padding: 6px 14px;
+      background: var(--cream);
+      border: 1.5px solid var(--ash);
+      border-radius: var(--r-pill);
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink-3);
+      cursor: pointer;
+      transition: all var(--motion-fast);
+      user-select: none;
+    }
+    .chip:hover { border-color: var(--stone); background: var(--white); }
+    .chip.selected {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: var(--white);
+    }
+    .chip-add {
+      background: var(--white);
+      border: 1.5px dashed var(--ash);
+      color: var(--stone);
+    }
+    .chip-add:hover { border-color: var(--red); color: var(--red); }
+
+    /* Footer Navigation */
+    .form-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: var(--space-8);
+      padding-top: var(--space-6);
+      border-top: 1px solid var(--ash);
+    }
+
+    /* Site Footer */
+    footer {
+      background: var(--ink-2);
+      padding: var(--space-12) 0 var(--space-8);
+      color: var(--stone);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: var(--space-12);
+    }
+    .footer-logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--white);
+      margin-bottom: var(--space-4);
+    }
+    .footer-logo span { color: var(--red-mid); }
+    .footer-tagline {
+      font-size: 12px;
+      font-weight: 300;
+      max-width: 200px;
+    }
+    .footer-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 11px;
+      color: var(--ash);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-6);
+    }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: var(--space-3); }
+    .footer-links a {
+      color: var(--dust);
+      text-decoration: none;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      transition: color var(--motion-fast);
+    }
+    .footer-links a:hover { color: var(--white); }
+    
+    .copyright {
+      margin-top: var(--space-12);
+      padding-top: var(--space-8);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      font-size: 11px;
+      text-align: center;
+    }
+
+    /* Helper Classes */
+    .text-red { color: var(--red); }
+
+    @media (max-width: 640px) {
+      .footer-grid { grid-template-columns: 1fr; gap: var(--space-8); }
+      .condition-grid { grid-template-columns: 1fr; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <div style="display: flex; align-items: center; gap: var(--space-8);">
+        <a href="/" class="logo">Tipid<span>Moto</span></a>
+        <div style="display: flex; gap: var(--space-4);">
+          <a href="/marketplace" class="nav-link">Browse</a>
+          <a href="/shop-by-bike" class="nav-link">Shop by Bike</a>
+        </div>
+      </div>
+      
+      <div class="nav-actions">
+        <a href="/inbox" class="nav-link" style="position: relative;">
+          Inbox
+          <span style="position: absolute; top: -6px; right: -12px; background: var(--red); color: white; border-radius: 99px; height: 14px; min-width: 14px; padding: 0 4px; font-size: 9px; display: flex; align-items: center; justify-content: center;">2</span>
+        </a>
+        <a href="/post" class="btn btn-primary btn-sm">+ Post Listing</a>
+        <div class="avatar-circle">RD</div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Progress Stepper -->
+  <div class="container">
+    <div class="stepper">
+      <div class="step-list">
+        <!-- Step 1: Complete -->
+        <div class="step-item complete">
+          <div class="step-circle">✓</div>
+          <span class="step-label">Category</span>
+        </div>
+        <!-- Step 2: Active -->
+        <div class="step-item active">
+          <div class="step-circle">2</div>
+          <span class="step-label">Details</span>
+        </div>
+        <!-- Step 3: Pending -->
+        <div class="step-item">
+          <div class="step-circle">3</div>
+          <span class="step-label">Photos</span>
+        </div>
+        <!-- Step 4: Pending -->
+        <div class="step-item">
+          <div class="step-circle">4</div>
+          <span class="step-label">Price</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Content -->
+    <main class="form-card">
+      <header class="form-header">
+        <h1 class="form-title">Tell buyers more about your part</h1>
+        <p class="form-subtitle">Be honest about the condition to build trust with buyers.</p>
+      </header>
+      
+      <div class="form-group">
+        <label class="form-label" for="part-title">Part Title</label>
+        <input type="text" id="part-title" class="form-input" placeholder="e.g. Brembo 4-Piston Caliper (Original)" value="Rear Brake Caliper Assembly">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="description">Detailed Description</label>
+        <textarea id="description" class="form-input" placeholder="Describe any scratches, how long it was used, or if it has ever been repaired...">Original brake caliper from Honda CB150R. Used for 5,000km only. No leaks, smooth piston movement. Brake pads still have 60% life.</textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Part Condition</label>
+        <div class="condition-grid">
+          <label class="condition-option">
+            <input type="radio" name="condition" value="new">
+            <div class="condition-box">
+              <span class="condition-name">New / Unused</span>
+              <span class="condition-desc">Still in box or never installed</span>
+            </div>
+          </label>
+          <label class="condition-option">
+            <input type="radio" name="condition" value="good" checked>
+            <div class="condition-box">
+              <span class="condition-name">Good</span>
+              <span class="condition-desc">Used but no major issues</span>
+            </div>
+          </label>
+          <label class="condition-option">
+            <input type="radio" name="condition" value="fair">
+            <div class="condition-box">
+              <span class="condition-name">Fair</span>
+              <span class="condition-desc">Visible wear but works fine</span>
+            </div>
+          </label>
+          <label class="condition-option">
+            <input type="radio" name="condition" value="parts">
+            <div class="condition-box">
+              <span class="condition-name">For Parts / Not Working</span>
+              <span class="condition-desc">Needs repair or for harvesting</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Compatible Bike Models</label>
+        <p class="form-subtitle" style="font-size: 13px; margin-bottom: 12px;">Which bikes does this part fit? Selecting specific models helps buyers find your listing.</p>
+        <div class="chips-container" id="bike-chips">
+          <div class="chip selected" data-model="Honda CB150R">Honda CB150R ✕</div>
+          <div class="chip selected" data-model="Honda CBR150R">Honda CBR150R ✕</div>
+          <div class="chip" data-model="Yamaha R15">Yamaha R15</div>
+          <div class="chip" data-model="Suzuki Gixxer 155">Suzuki Gixxer 155</div>
+          <button class="chip chip-add">+ Add model</button>
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <a href="/post/step-1" class="btn btn-outline">Back</a>
+        <button type="submit" class="btn btn-primary" id="next-btn">Next: Upload Photos</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">Tipid<span>Moto</span></div>
+          <p class="footer-tagline">The trusted peer-to-peer marketplace for motorcycle parts in the Philippines.</p>
+        </div>
+        <div>
+          <h3 class="footer-title">Marketplace</h3>
+          <ul class="footer-links">
+            <li><a href="/marketplace">All Listings</a></li>
+            <li><a href="/shop-by-bike">Shop by Bike</a></li>
+            <li><a href="/legit-partner">Legit Partner</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-title">Support</h3>
+          <ul class="footer-links">
+            <li><a href="/help">Help Center</a></li>
+            <li><a href="/safety">Safety Tips</a></li>
+            <li><a href="/terms">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        &copy; 2025 TipidMoto Philippines. Proudly built for the Filipino rider.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Logic for bike chips
+    document.querySelectorAll('.chip:not(.chip-add)').forEach(chip => {
+      chip.addEventListener('click', () => {
+        chip.classList.toggle('selected');
+        const model = chip.getAttribute('data-model');
+        if (chip.classList.contains('selected')) {
+          chip.innerHTML = `${model} ✕`;
+        } else {
+          chip.innerHTML = model;
+        }
+      });
+    });
+
+    // Mock Next transition
+    document.getElementById('next-btn').addEventListener('click', (e) => {
+      e.preventDefault();
+      const btn = e.target;
+      btn.innerText = 'Creating listing...';
+      btn.style.opacity = '0.7';
+      btn.style.pointerEvents = 'none';
+      setTimeout(() => {
+        alert("Proceeding to Step 3: Photos");
+        btn.innerText = 'Next: Upload Photos';
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+      }, 1000);
+    });
+  </script>
+
+</body>
+</html>
