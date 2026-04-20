@@ -126,7 +126,7 @@ const Inbox: React.FC = () => {
               <button className="chat-header__back" onClick={() => setSelectedThreadId(null)}>‹</button>
               <div className="chat-avatar" style={{ 
                 width: 40, height: 40, borderRadius: '50%', backgroundColor: 'var(--ash)', 
-                display: 'flex', alignItems: 'center', justifyContent: 'center', fontBold: 700 
+                display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 
               }}>
                 {selectedThread.userAvatar}
               </div>
